@@ -25,7 +25,7 @@ CREATE TABLE Socios (
     Telefono NVARCHAR(20),
     FechaNacimiento DATE NOT NULL,
     FechaAlta DATE DEFAULT GETDATE(),
-    Activo BIT DEFAULT 1,
+    Activo BIT NOT NULL DEFAULT 1,
     FechaVencimientoAptoMedico DATETIME NOT NULL
 );
 
@@ -43,7 +43,7 @@ CREATE TABLE Membresias (
     IDPlan INT NOT NULL FOREIGN KEY REFERENCES PlanesMembresia(IDPlan),
     FechaInicio DATE NOT NULL,
     FechaVencimiento DATE NOT NULL,
-    Activa BIT DEFAULT 1
+    Activa BIT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE Pagos (
@@ -59,13 +59,15 @@ CREATE TABLE Instructores (
     IDInstructor INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(50) NOT NULL,
     Apellido NVARCHAR(50) NOT NULL,
-    Especialidad NVARCHAR(50)
+    Especialidad NVARCHAR(50),
+    Activo BIT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE Actividades (
     IDActividad INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(50) NOT NULL,
     CapacidadMaxima INT NOT NULL
+    Activo BIT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE Clases (
@@ -74,7 +76,7 @@ CREATE TABLE Clases (
     IDInstructor INT NOT NULL FOREIGN KEY REFERENCES Instructores(IDInstructor),
     FechaHora DATETIME NOT NULL,
     CuposDisponibles INT NOT NULL,
-    Activa BIT DEFAULT 1
+    Activo BIT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE Inscripciones (
@@ -82,15 +84,6 @@ CREATE TABLE Inscripciones (
     IDSocio INT NOT NULL FOREIGN KEY REFERENCES Socios(IDSocio),
     IDClase INT NOT NULL FOREIGN KEY REFERENCES Clases(IDClase),
     FechaInscripcion DATETIME DEFAULT GETDATE(),
-    Cancelada BIT DEFAULT 0
+    Cancelada BIT NOT NULL DEFAULT 1
 );
-GO
-
--- 2. DATOS DE PRUEBA
-INSERT INTO PlanesMembresia (Nombre, DuracionDias, Precio) VALUES ('Musculacion', 30, 15000);
-INSERT INTO Socios (Nombre, Apellido, Email, FechaNacimiento, FechaVencimientoAptoMedico) 
-VALUES ('Juan', 'Perez', 'juan@perez.com', '1990-01-01', '2025-12-31');
-INSERT INTO Actividades (Nombre, CapacidadMaxima) VALUES ('Yoga', 15);
-INSERT INTO Instructores (Nombre, Apellido) VALUES ('Carlos', 'Gomez');
-INSERT INTO Clases (IDActividad, IDInstructor, FechaHora, CuposDisponibles) VALUES (1, 1, GETDATE(), 15);
 GO

@@ -20,7 +20,7 @@ INSERT INTO Actividades (Nombre, CapacidadMaxima) VALUES
 ('Yoga', 15), ('Crossfit', 10), ('Zumba', 25), ('Spinning', 12);
 
 -- 4. Socios (Mezclamos algunos con apto al día y otros vencidos)
-INSERT INTO Socios (Nombre, Aspellido, Email, FechaNacimiento, FechaVencimientoAptoMedico) VALUES 
+INSERT INTO Socios (Nombre, Apellido, Email, FechaNacimiento, FechaVencimientoAptoMedico) VALUES 
 ('Lucas', 'Rodriguez', 'lucas@mail.com', '1980-05-12', '2027-01-15'),
 ('Enzo', 'Ferrari', 'enzo@mail.com', '2000-02-18', '2027-03-12'),
 ('Diego', 'Maradona', 'diego@mail.com', '1985-10-30', '2023-01-01'), 
