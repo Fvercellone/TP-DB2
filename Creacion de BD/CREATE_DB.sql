@@ -17,13 +17,18 @@ USE GimnasioTPI;
 GO
 
 -- 1. TABLAS (DML)
-CREATE TABLE Socios (
-    IDSocio INT IDENTITY(1,1) PRIMARY KEY,
+CREATE TABLE Personas (
+    IDPersona INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(50) NOT NULL,
     Apellido NVARCHAR(50) NOT NULL,
-    Email NVARCHAR(50) NOT NULL,
+    Email NVARCHAR(50) NOT NULL UNIQUE,
     Telefono NVARCHAR(20),
-    FechaNacimiento DATE NOT NULL,
+    FechaNacimiento DATE NOT NULL
+);
+
+CREATE TABLE Socios (
+    IDSocio INT IDENTITY(1,1) PRIMARY KEY,
+    IDPersona INT NOT NULL FOREIGN KEY REFERENCES Personas(IDPersona),
     FechaAlta DATE DEFAULT GETDATE(),
     Activo BIT NOT NULL DEFAULT 1,
     FechaVencimientoAptoMedico DATETIME NOT NULL
@@ -57,8 +62,7 @@ CREATE TABLE Pagos (
 
 CREATE TABLE Instructores (
     IDInstructor INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(50) NOT NULL,
-    Apellido NVARCHAR(50) NOT NULL,
+    IDPersona INT NOT NULL FOREIGN KEY REFERENCES Personas(IDPersona),
     Especialidad NVARCHAR(50),
     Activo BIT NOT NULL DEFAULT 1
 );
@@ -66,7 +70,7 @@ CREATE TABLE Instructores (
 CREATE TABLE Actividades (
     IDActividad INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(50) NOT NULL,
-    CapacidadMaxima INT NOT NULL
+    CapacidadMaxima INT NOT NULL,
     Activo BIT NOT NULL DEFAULT 1
 );
 
@@ -86,4 +90,5 @@ CREATE TABLE Inscripciones (
     FechaInscripcion DATETIME DEFAULT GETDATE(),
     Cancelada BIT NOT NULL DEFAULT 1
 );
+
 GO
