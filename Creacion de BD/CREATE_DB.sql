@@ -51,19 +51,30 @@ CREATE TABLE Membresias (
     Activa BIT NOT NULL DEFAULT 1
 );
 
+CREATE TABLE MetodoPago (
+    IDMetodoPago INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL,
+    Activo BIT NOT NULL DEFAULT 1
+);
+
 CREATE TABLE Pagos (
     IDPago INT IDENTITY(1,1) PRIMARY KEY,
     IDMembresia INT NOT NULL FOREIGN KEY REFERENCES Membresias(IDMembresia),
     FechaPago DATETIME DEFAULT GETDATE(),
     Monto DECIMAL(10,2) NOT NULL,
-    MetodoPago NVARCHAR(50) NOT NULL,
-    Observacion NVARCHAR(255)
+    MetodoPago INT NOT NULL FOREIGN KEY REFERENCES MetodoPago(IDMetodoPago),
+    Observacion NVARCHAR(255) 
+);
+
+CREATE TABLE Especialidades (
+    IDEspecialidad INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL,
 );
 
 CREATE TABLE Instructores (
     IDInstructor INT IDENTITY(1,1) PRIMARY KEY,
     IDPersona INT NOT NULL FOREIGN KEY REFERENCES Personas(IDPersona),
-    Especialidad NVARCHAR(50),
+    Especialidad INT NOT NULL FOREIGN KEY REFERENCES Especialidades(IDEspecialidad),
     Activo BIT NOT NULL DEFAULT 1
 );
 
@@ -71,7 +82,8 @@ CREATE TABLE Actividades (
     IDActividad INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(50) NOT NULL,
     CapacidadMaxima INT NOT NULL,
-    Activo BIT NOT NULL DEFAULT 1
+    Activo BIT NOT NULL DEFAULT 1,
+    IDEspecialidad INT NOT NULL FOREIGN KEY REFERENCES Especialidades(IDEspecialidad)
 );
 
 CREATE TABLE Clases (
