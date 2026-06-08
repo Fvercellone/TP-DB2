@@ -13,17 +13,31 @@ SELECT
         ELSE 'HAY CUPO'
     END AS Estado
 FROM Clases C
-JOIN Actividades A ON C.IDActividad = A.IDActividad;
+INNER JOIN Actividades A ON C.IDActividad = A.IDActividad;
 GO
 
 -- 1. SEGUNDA VISTA: Resumen de Ventas por Plan
 CREATE VIEW vw_IngresosPorPlan AS
 SELECT 
-    Pl.Nombre AS PlanNombre,
+    PM.Nombre AS PlanNombre,
     COUNT(P.IDPago) AS CantidadPagos,
     SUM(P.Monto) AS TotalRecaudado
 FROM Pagos P
-JOIN Membresias M ON P.IDMembresia = M.IDMembresia
-JOIN PlanesMembresia Pl ON M.IDPlan = Pl.IDPlan
-GROUP BY Pl.Nombre;
+INNER JOIN Membresias M ON P.IDMembresia = M.IDMembresia
+INNER JOIN PlanesMembresia Pl ON M.IDPlan = PM.IDPlan
+GROUP BY PM.Nombre;
+GO
+
+-- 2. TERCERA VISTA: Relación de Instructores, sus Especialidades y las Actividades que dictan
+CREATE VIEW vw_InstructoresPorActividad AS
+SELECT 
+    A.IDActividad,
+    A.Nombre AS Actividad,
+    I.IDInstructor,
+    I.Nombre AS InstructorNombre,     
+    I.Apellido AS InstructorApellido,
+    C.FechaHora AS HorarioClase
+FROM Clases C
+INNER JOIN Actividades A ON C.IDActividad = A.IDActividad
+INNER JOIN Instructores I ON C.IDInstructor = I.IDInstructor
 GO
