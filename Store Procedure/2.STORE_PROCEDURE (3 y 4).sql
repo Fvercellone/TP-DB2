@@ -28,37 +28,95 @@ BEGIN
 END;
 GO
 
--- 4. Cuarto PROCEDIMIENTO: Crear un Instructor 
--- Sencillo para cuando pasemos a desarrollo (si es que lo hacemos)
- CREATE PROCEDURE sp_CrearInstructor
+Select * from Instructores
+Select * from Personas
+
+-- 5. Quinto PROCEDIMIENTO: Crear Persona
+
+CREATE PROCEDURE sp_CrearPersona
+    
     @Nombre NVARCHAR(50),
     @Apellido NVARCHAR(50),
     @Email NVARCHAR(50),
     @Telefono VARCHAR(20),
-    @FechaNacimiento DATE,
-    @IDEspecialidad INT
-   
+    @FechaNacimiento DATE
 AS
 BEGIN
     BEGIN TRY
-       BEGIN TRANSACTION
-       INSERT INTO Personas (Nombre, Apellido, Email, Telefono, FechaNacimiento)
-            VALUES (@Nombre, @Apellido, @Email, @Telefono, @FechaNacimiento);
+        BEGIN TRANSACTION;
 
-       INSERT INTO Instructores (IDPersona, IDEspecialidad, Activo)
-            VALUES (@NuevoIDPersona, @IDEspecialidad, 1);
+        
 
-      COMMIT TRANSACTION;
+        INSERT INTO Personas 
+        (
+            Nombre, 
+            Apellido, 
+            Email, 
+            Telefono, 
+            FechaNacimiento
+        )
+        VALUES 
+        (
+            @Nombre, 
+            @Apellido, 
+            @Email, 
+            @Telefono, 
+            @FechaNacimiento
+        );
+
+        COMMIT TRANSACTION;
+
+        PRINT 'Persona creada correctamente en el sistema.';
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+
+        PRINT 'Error al crear la Persona.';
+        THROW;
+    END CATCH
+END;
+GO
+
+-- 5. Quinto PROCEDIMIENTO: Crear instructor
+-- Si un instructor quiere darse de baja o es despedido 
+
+CREATE PROCEDURE sp_CrearInstructor
+    
+    @IDPersona INT,
+    @IDEspecialidad INT
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        
+
+        INSERT INTO Instructores 
+        (
+            IDPersona, 
+            IDEspecialidad, 
+            Activo
+        )
+        VALUES 
+        (
+            @IDPersona, 
+            @IDEspecialidad, 
+            1
+        );
+        COMMIT TRANSACTION;
+
         PRINT 'Instructor creado correctamente en el sistema.';
     END TRY
     BEGIN CATCH
+        ROLLBACK TRANSACTION;
+
         PRINT 'Error al crear el instructor.';
         THROW;
     END CATCH
 END;
 GO
 
--- 5. Quinto PROCEDIMIENTO: REALIZAR BAJA LOGICA DE LA Instructor
+-- 6. Quinto PROCEDIMIENTO: REALIZAR BAJA LOGICA DE LA Instructor
 -- Si un instructor quiere darse de baja o es despedido 
 
 CREATE PROCEDURE sp_Baja_logica_Instructor

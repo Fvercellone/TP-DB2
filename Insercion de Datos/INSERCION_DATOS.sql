@@ -8,9 +8,18 @@ INSERT INTO PlanesMembresia (Nombre, DuracionDias, Precio, Descripcion) VALUES
 ('Plan Black', 30, 25000, 'Acceso total ilimitado'),
 ('Plan Anual', 365, 180000, 'Pago adelantado con 20% off');
 
+-- 2. Especialidades
+INSERT INTO Especialidades (Nombre) VALUES 
+('Musculacion'), ('Resistencia'), ('Velocidad'), ('Cardio');
+
+
+-- 2. Salon
+INSERT INTO Salon (Nombre, Descripcion) VALUES 
+('BoxA', 'Queso'), ('BoxB', 'Papas'), ('Boxc', 'Tu Mama'), ('BoxD', 'ReGay');
+
 -- 2. Actividades
-INSERT INTO Actividades (Nombre, CapacidadMaxima) VALUES 
-('Yoga', 15), ('Crossfit', 10), ('Zumba', 25), ('Spinning', 12);
+INSERT INTO Actividades (Nombre, CapacidadMaxima, IDEspecialidad) VALUES 
+('Yoga', 15, 3), ('Crossfit', 10, 1), ('Zumba', 25, 2), ('Spinning', 12, 3);
 
 -- 3. Instructores
 DECLARE @IdPers INT;
@@ -193,8 +202,8 @@ INSERT INTO Socios (IDPersona, FechaAlta, Activo, FechaVencimientoAptoMedico)
 VALUES (SCOPE_IDENTITY(), GETDATE(), 1, '2026-08-15');
 
 -- 5. Clases (Programamos algunas para hoy)
-INSERT INTO Clases (IDActividad, IDInstructor, FechaHora, CuposDisponibles, Salon) VALUES 
-(1, 1, GETDATE(), 15, 'Salón A'), -- Yoga con Carlos
-(2, 2, GETDATE(), 10, 'Zona Box'), -- Crossfit con Laura
-(3, 4, GETDATE(), 25, 'Salón B'); -- Zumba con Elena
+INSERT INTO Clases (IDActividad, IDInstructor, FechaHora, CuposDisponibles, IDSalon) VALUES 
+(1, 1, GETDATE(), 15, 1), -- Yoga con Carlos
+(2, 2, GETDATE(), 10, 2), -- Crossfit con Laura
+(3, 4, GETDATE(), 25, 3); -- Zumba con Elena
 GO

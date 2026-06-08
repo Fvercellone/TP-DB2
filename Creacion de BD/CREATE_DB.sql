@@ -74,7 +74,7 @@ CREATE TABLE Especialidades (
 CREATE TABLE Instructores (
     IDInstructor INT IDENTITY(1,1) PRIMARY KEY,
     IDPersona INT NOT NULL FOREIGN KEY REFERENCES Personas(IDPersona),
-    Especialidad INT NOT NULL FOREIGN KEY REFERENCES Especialidades(IDEspecialidad),
+    IDEspecialidad INT NOT NULL FOREIGN KEY REFERENCES Especialidades(IDEspecialidad),
     Activo BIT NOT NULL DEFAULT 1
 );
 
@@ -86,10 +86,18 @@ CREATE TABLE Actividades (
     IDEspecialidad INT NOT NULL FOREIGN KEY REFERENCES Especialidades(IDEspecialidad)
 );
 
+CREATE TABLE Salon (
+    IDSalon INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL,
+    Descripcion NVARCHAR(50),
+    Activo BIT NOT NULL DEFAULT 1
+);
+
 CREATE TABLE Clases (
     IDClase INT IDENTITY(1,1) PRIMARY KEY,
     IDActividad INT NOT NULL FOREIGN KEY REFERENCES Actividades(IDActividad),
     IDInstructor INT NOT NULL FOREIGN KEY REFERENCES Instructores(IDInstructor),
+    IDSalon INT NOT NULL FOREIGN KEY REFERENCES Salon(IDSalon),
     FechaHora DATETIME NOT NULL,
     CuposDisponibles INT NOT NULL,
     Activo BIT NOT NULL DEFAULT 1
