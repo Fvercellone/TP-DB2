@@ -10,8 +10,8 @@ BEGIN
     BEGIN TRY
         -- Insertamos la inscripción
         UPDATE Inscripciones 
-        set Cancelada = 1
-        where IDSocio = @IDSocio
+        SET Cancelada = 1
+        WHERE IDSocio = @IDSocio
 
         -- Restamos uno al cupo de la clase
         UPDATE Clases 
@@ -33,23 +33,23 @@ GO
  CREATE PROCEDURE sp_CrearInstructor
     @Nombre NVARCHAR(50),
     @Apellido NVARCHAR(50),
-    @Especialidad NVARCHAR(50)
+    @Email NVARCHAR(50),
+    @Telefono VARCHAR(20),
+    @FechaNacimiento DATE,
+    @IDEspecialidad INT
+   
 AS
 BEGIN
     BEGIN TRY
-        INSERT INTO Instructores
-        (
-            Nombre,
-            Apellido,
-            Especialidad
-        )
-        VALUES
-        (
-            @Nombre,
-            @Apellido,
-            @Especialidad
-        );
-        PRINT 'Instructor creado correctamente.';
+       BEGIN TRANSACTION
+       INSERT INTO Personas (Nombre, Apellido, Email, Telefono, FechaNacimiento)
+            VALUES (@Nombre, @Apellido, @Email, @Telefono, @FechaNacimiento);
+
+       INSERT INTO Instructores (IDPersona, IDEspecialidad, Activo)
+            VALUES (@NuevoIDPersona, @IDEspecialidad, 1);
+
+      COMMIT TRANSACTION;
+        PRINT 'Instructor creado correctamente en el sistema.';
     END TRY
     BEGIN CATCH
         PRINT 'Error al crear el instructor.';
@@ -66,13 +66,12 @@ CREATE PROCEDURE sp_Baja_logica_Instructor
     
 AS
 BEGIN
+   BEGIN TRY
     BEGIN TRANSACTION
-    BEGIN TRY
         -- Insertamos la inscripción
         UPDATE Instructores 
-        set Activo = 0
-        where IDInstructor = @IDInstructor
-
+        SET Activo = 0
+        WHERE IDInstructor = @IDInstructor;
 
         COMMIT TRANSACTION;
         PRINT 'Instructor dado de baja correctamente.';
@@ -84,6 +83,7 @@ BEGIN
 END;
 GO
 
+
 -- 6. Sexto PROCEDIMIENTO: REALIZAR Alta LOGICA DE LA Instructor
 -- Si un instructor se da de Alta Nuevamente
 
@@ -92,13 +92,12 @@ Create PROCEDURE sp_Alta_logica_Instructor
     
 AS
 BEGIN
-    BEGIN TRANSACTION
     BEGIN TRY
+      BEGIN TRANSACTION
         -- Insertamos la inscripción
         UPDATE Instructores 
-        set Activo = 1
-        where IDInstructor = @IDInstructor
-
+        SET Activo = 1
+        WHERE IDInstructor = @IDInstructor;
 
         COMMIT TRANSACTION;
         PRINT 'Instructor dado de alta correctamente.';

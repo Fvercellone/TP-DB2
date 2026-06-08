@@ -1,14 +1,14 @@
 USE GimnasioTPI;
 GO
 
--- 2. PROCEDIMIENTO: Para inscribir un socio y que reste el cupo automáticamente
+-- 1. PROCEDIMIENTO: Para inscribir un socio y que reste el cupo automáticamente
 CREATE PROCEDURE sp_InscribirSocio
     @IDSocio INT,
     @IDClase INT
 AS
 BEGIN
-    BEGIN TRANSACTION
     BEGIN TRY
+     BEGIN TRANSACTION
         -- Insertamos la inscripción
         INSERT INTO Inscripciones (IDSocio, IDClase, FechaInscripcion, Cancelada)
         VALUES (@IDSocio, @IDClase, GETDATE(), 0);
@@ -35,9 +35,19 @@ CREATE PROCEDURE sp_CambiarInstructorClase
     @NuevoIDInstructor INT
 AS
 BEGIN
+   BEGIN TRY
+     BEGIN TRANSACTION
     UPDATE Clases 
     SET IDInstructor = @NuevoIDInstructor 
     WHERE IDClase = @IDClase;
-    PRINT 'Instructor actualizado correctamente.';
+
+    COMMIT TRANSACTION;
+            PRINT 'Instructor actualizado correctamente en la clase.';
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        PRINT 'Error al intentar cambiar el instructor.';
+        THROW;
+    END CATCH
 END;
 GO
