@@ -1,16 +1,16 @@
 -- 3. Tercer TRIGGER: Impedir eliminar Inscripciones de socios
 -- Esto evita que se pierda la inscripcion realiza por x socio, lo cual si el mismo por x motivo decide cancelar su suscripcion la misma figure en estado cancelada y el cupo se sume en +1
-Alter TRIGGER trg_BajaLogicaInscripciones
+CREATE TRIGGER trg_BajaLogicaInscripciones
 ON Inscripciones
 INSTEAD OF DELETE
 AS
 BEGIN
     -- Baja lógica de la inscripción
-     UPDATE I
+    UPDATE I
     SET Cancelada = 1
     FROM Inscripciones I
     INNER JOIN deleted D 
-        ON I.IDInscripcion = D.IDInscripcion
+        ON I.IDSocio = D.IDSocio AND I.IDClase = D.IDClase
     WHERE I.Cancelada = 0;
 
     -- Devolver cupo a la clase
@@ -19,9 +19,9 @@ BEGIN
     FROM Clases C
     INNER JOIN deleted D 
         ON C.IDClase = D.IDClase
+    INNER JOIN Inscripciones I 
+        ON I.IDSocio = D.IDSocio AND I.IDClase = D.IDClase
     WHERE D.Cancelada = 0;
-
-
 END;
 GO
 
@@ -33,8 +33,9 @@ INSTEAD OF DELETE
 AS
 BEGIN
     UPDATE I
-    SET Activo = 0
+    SET I.Activo = 0
     FROM Instructores I
-    INNER JOIN deleted D ON I.IDInstructor = D.IDInstructor;
+    INNER JOIN deleted D ON I.IDInstructor = D.IDInstructor
+    WHERE I.Activo = 1;
 END;
 GO

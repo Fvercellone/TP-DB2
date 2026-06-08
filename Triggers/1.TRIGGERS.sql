@@ -20,7 +20,8 @@ BEGIN
     BEGIN
         -- Si está todo bien, hacemos la inserción real
         INSERT INTO Inscripciones (IDSocio, IDClase, FechaInscripcion, Cancelada)
-        SELECT IDSocio, IDClase, FechaInscripcion, Cancelada FROM inserted;
+        SELECT IDSocio, IDClase, GETDATE(), 0
+        FROM inserted;
     END
 END;
 GO
