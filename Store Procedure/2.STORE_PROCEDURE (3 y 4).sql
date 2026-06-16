@@ -166,3 +166,53 @@ BEGIN
     END CATCH
 END;
 GO
+
+-- 7. Septimo PROCEDIMIENTO: Cantidad de instructores por especialidad.
+
+CREATE PROCEDURE sp_ContarInstructoresPorEspecialidad
+
+AS
+BEGIN
+    BEGIN TRY
+
+        SELECT
+            E.Nombre AS Especialidad,
+            COUNT(I.IDInstructor) AS CantidadInstructores
+        FROM Especialidades E
+        LEFT JOIN Instructores I
+            ON E.IDEspecialidad = I.IDEspecialidad
+            AND I.Activo = 1
+        GROUP BY E.Nombre
+        ORDER BY E.Nombre;
+
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error al contar instructores por especialidad.';
+        THROW;
+    END CATCH
+END;
+GO
+
+-- 8. Octavo PROCEDIMIENTO: Cantidad de instructores por actividad
+CREATE PROCEDURE sp_ContarInstructoresPorActividad
+
+AS
+BEGIN
+    BEGIN TRY
+
+        SELECT
+            A.Nombre AS Actividad,
+            COUNT(DISTINCT C.IDInstructor) AS CantidadInstructores
+        FROM Actividades A
+        LEFT JOIN Clases C
+            ON A.IDActividad = C.IDActividad
+        GROUP BY A.Nombre
+        ORDER BY A.Nombre;
+
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error al contar instructores por actividad.';
+        THROW;
+    END CATCH
+END;
+GO
