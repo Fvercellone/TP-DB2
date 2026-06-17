@@ -12,16 +12,15 @@ INSERT INTO PlanesMembresia (Nombre, DuracionDias, Precio, Descripcion) VALUES
 INSERT INTO Especialidades (Nombre) VALUES 
 ('Musculacion'), ('Resistencia'), ('Velocidad'), ('Cardio');
 
-
--- 2. Salon
+-- 3. Salon
 INSERT INTO Salon (Nombre, Descripcion) VALUES 
 ('BoxA', 'Queso'), ('BoxB', 'Papas'), ('Boxc', 'Tu Mama'), ('BoxD', 'ReGay');
 
--- 2. Actividades
+-- 4. Actividades
 INSERT INTO Actividades (Nombre, CapacidadMaxima, IDEspecialidad) VALUES 
 ('Yoga', 15, 3), ('Crossfit', 10, 1), ('Zumba', 25, 2), ('Spinning', 12, 3);
 
--- 3. Instructores
+-- 5. Instructores
 DECLARE @IdPers INT;
 
 -- Instructor 1
@@ -50,7 +49,7 @@ INSERT INTO Instructores (IDPersona, IDEspecialidad, Activo) VALUES (@IdPers, 4,
 
 
 
--- 4. Socios (Mezclamos algunos con apto al día y otros vencidos)
+-- 6. Socios (Mezclamos algunos con apto al día y otros vencidos)
 -- Socio 1:
 INSERT INTO Personas (Nombre, Apellido, Email, Telefono, FechaNacimiento) 
 VALUES ('Lucas', 'Rodriguez', 'lucas@mail.com', '15000001', '1980-05-12');
@@ -201,9 +200,13 @@ VALUES ('Micaela', 'Suarez', 'mica@mail.com', '15000025', '2003-04-12');
 INSERT INTO Socios (IDPersona, FechaAlta, Activo, FechaVencimientoAptoMedico) 
 VALUES (SCOPE_IDENTITY(), GETDATE(), 1, '2026-08-15');
 
--- 5. Clases (Programamos algunas para hoy)
+-- 7. Clases (Programamos algunas para hoy)
 INSERT INTO Clases (IDActividad, IDInstructor, FechaHora, CuposDisponibles, IDSalon) VALUES 
 (1, 1, GETDATE(), 15, 1), -- Yoga con Carlos
 (2, 2, GETDATE(), 10, 2), -- Crossfit con Laura
 (3, 4, GETDATE(), 25, 3); -- Zumba con Elena
-GO
+
+
+-- 8. Inscripciones
+INSERT INTO Inscripciones (IDSocio, IDClase, Cancelada) VALUES
+(1, 1, 0), (2, 1, 0), (3, 1, 0), (4, 1, 0), (5, 1, 0), (6, 2, 0), (7, 2, 0), (8, 2, 0), (9, 3, 0), (10, 3, 0), (11, 3, 0), (12, 3, 0), (13, 3, 0), (14, 3, 0), (15, 3, 0);
