@@ -13,7 +13,7 @@ BEGIN
         -- Insertamos la inscripción
         UPDATE Inscripciones 
         SET Cancelada = 1
-        WHERE IDSocio = @IDSocio
+        WHERE IDSocio = @IDSocio AND IDClase = @IDClase
 
         -- Restamos uno al cupo de la clase
         UPDATE Clases 
