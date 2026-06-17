@@ -68,7 +68,7 @@ CREATE TABLE Pagos (
 
 CREATE TABLE Especialidades (
     IDEspecialidad INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(50) NOT NULL,
+    Nombre NVARCHAR(50) NOT NULL
 );
 
 CREATE TABLE Instructores (
