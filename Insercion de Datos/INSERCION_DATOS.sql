@@ -27,25 +27,25 @@ DECLARE @IdPers INT;
 INSERT INTO Personas (Nombre, Apellido, Email, Telefono, FechaNacimiento)
 VALUES ('Carlos', 'Gomez', 'carlos@mail.com', '11223344', '1980-01-01');
 SET @IdPers = SCOPE_IDENTITY();
-INSERT INTO Instructores (IDPersona, IDEspecialidad, Activo) VALUES (@IdPers, 1, 1); -- Especialidad 1 (Yoga y Pilates)
+INSERT INTO Instructores (IDPersona, IDEspecialidad, Activo) VALUES (@IdPers, 1, 1); -- Especialidad 1 (Musculacion)
 
 -- Instructor 2
 INSERT INTO Personas (Nombre, Apellido, Email, Telefono, FechaNacimiento)
 VALUES ('Laura', 'Manson', 'laura@mail.com', '11556677', '1985-05-05');
 SET @IdPers = SCOPE_IDENTITY();
-INSERT INTO Instructores (IDPersona, IDEspecialidad, Activo) VALUES (@IdPers, 2, 1); -- Especialidad 2 (Crossfit)
+INSERT INTO Instructores (IDPersona, IDEspecialidad, Activo) VALUES (@IdPers, 2, 1); -- Especialidad 2 (Resistencia)
 
 -- Instructor 3
 INSERT INTO Personas (Nombre, Apellido, Email, Telefono, FechaNacimiento)
 VALUES ('Ricardo', 'Fort', 'ricardito@mail.com', '11998822', '1975-11-05');
 SET @IdPers = SCOPE_IDENTITY();
-INSERT INTO Instructores (IDPersona, IDEspecialidad, Activo) VALUES (@IdPers, 3, 1); -- Especialidad 3 (Musculación)
+INSERT INTO Instructores (IDPersona, IDEspecialidad, Activo) VALUES (@IdPers, 3, 1); -- Especialidad 3 (Velocidad)
 
 -- Instructor 4
 INSERT INTO Personas (Nombre, Apellido, Email, Telefono, FechaNacimiento)
 VALUES ('Elena', 'Perez', 'elena@mail.com', '11447788', '1990-03-03');
 SET @IdPers = SCOPE_IDENTITY();
-INSERT INTO Instructores (IDPersona, IDEspecialidad, Activo) VALUES (@IdPers, 4, 1); -- Especialidad 4 (Zumba)
+INSERT INTO Instructores (IDPersona, IDEspecialidad, Activo) VALUES (@IdPers, 4, 1); -- Especialidad 4 (Cardio)
 
 
 
