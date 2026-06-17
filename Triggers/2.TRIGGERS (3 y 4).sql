@@ -1,4 +1,7 @@
--- 3. Tercer TRIGGER: Impedir eliminar Inscripciones de socios
+USE GimnasioTPI;
+GO
+
+-- 3. TERCER TRIGGER: Impedir eliminar Inscripciones de socios
 -- Esto evita que se pierda la inscripcion realiza por x socio, lo cual si el mismo por x motivo decide cancelar su suscripcion la misma figure en estado cancelada y el cupo se sume en +1
 CREATE TRIGGER trg_BajaLogicaInscripciones
 ON Inscripciones
@@ -25,7 +28,7 @@ BEGIN
 END;
 GO
 
--- 4. Cuarto TRIGGER: Impedir eliminar fisicamente Instructores
+-- 4. CUARTO TRIGGER: Impedir eliminar fisicamente Instructores
 -- Esto evita que se pierdan los datos de los intructores que ya no trabajan o se dieron de baja
 CREATE TRIGGER trg_BajaLogicaInstructores
 ON Instructores

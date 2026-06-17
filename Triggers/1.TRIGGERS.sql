@@ -1,7 +1,7 @@
 USE GimnasioTPI;
 GO
 
--- 3. TRIGGER: El "Guardián". No deja inscribir si el Apto Médico está vencido.
+-- 1. PRIMER TRIGGER: El "Guardián". No deja inscribir si el Apto Médico está vencido.
 CREATE TRIGGER trg_ValidarAptoMedico
 ON Inscripciones
 INSTEAD OF INSERT
@@ -26,7 +26,7 @@ BEGIN
 END;
 GO
 
--- 3. SEGUNDO TRIGGER: Impedir eliminar Socios con cuotas activas
+-- 2. SEGUNDO TRIGGER: Impedir eliminar Socios con cuotas activas
 -- Esto evita que se pierda el historial financiero
 CREATE TRIGGER trg_NoBorrarSocioConMembresia
 ON Socios
