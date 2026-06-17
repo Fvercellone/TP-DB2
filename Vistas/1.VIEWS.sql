@@ -64,7 +64,7 @@ SELECT
     P.Apellido AS InstructorApellido,
     E.Nombre AS NombreEspecialidad
 FROM Instructores I
-INNER JOIN Especialidades E ON E.IDEspecialidad = I.IDInstructor
+INNER JOIN Especialidades E ON E.IDEspecialidad = I.IDEspecialidad
 INNER JOIN Personas P ON I.IDPersona = P.IDPersona;
 GO
 
@@ -83,7 +83,7 @@ SELECT
     E.nombre as NombreEspecialidad
 FROM Clases C
 INNER JOIN Actividades A ON C.IDActividad = A.IDActividad
-INNER JOIN Especialidades E ON E.IDEspecialidad = C.IDClase
+INNER JOIN Especialidades E ON E.IDEspecialidad = A.IDEspecialidad
 GO
 /*
 SELECT *
