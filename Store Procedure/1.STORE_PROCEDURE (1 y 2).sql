@@ -1,7 +1,7 @@
 USE GimnasioTPI;
 GO
 
--- 1. PROCEDIMIENTO: Para inscribir un socio y que reste el cupo automáticamente
+-- 1. PRIMER PROCEDIMIENTO: Para inscribir un socio y que reste el cupo automáticamente
 CREATE PROCEDURE sp_InscribirSocio
     @IDSocio INT,
     @IDClase INT

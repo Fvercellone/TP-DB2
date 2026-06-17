@@ -1,6 +1,8 @@
+USE GimnasioTPI;
+GO
+
 -- 3. TERCER PROCEDIMIENTO: REALIZAR BAJA LOGICA DE LA CLASE
 -- Si un socio quiere darse de baja/cancelar una clase que este inscripto
-
 CREATE PROCEDURE sp_Des_suscribirSocio
     @IDSocio INT,
     @IDClase INT
@@ -30,8 +32,9 @@ GO
 
 Select * from Instructores
 Select * from Personas
+GO
 
--- 5. Quinto PROCEDIMIENTO: Crear Persona
+-- 4. CUARTO PROCEDIMIENTO: Crear Persona
 
 CREATE PROCEDURE sp_CrearPersona
     
@@ -44,8 +47,6 @@ AS
 BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
-
-        
 
         INSERT INTO Personas 
         (
@@ -77,8 +78,7 @@ BEGIN
 END;
 GO
 
--- 5. Quinto PROCEDIMIENTO: Crear instructor
--- Si un instructor quiere darse de baja o es despedido 
+-- 5. QUINTO PROCEDIMIENTO: Crear instructor
 
 CREATE PROCEDURE sp_CrearInstructor
     
@@ -88,8 +88,6 @@ AS
 BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
-
-        
 
         INSERT INTO Instructores 
         (
@@ -116,7 +114,7 @@ BEGIN
 END;
 GO
 
--- 6. Quinto PROCEDIMIENTO: REALIZAR BAJA LOGICA DE LA Instructor
+-- 6. SEXTO PROCEDIMIENTO: REALIZAR BAJA LOGICA DEL INSTRUCTOR
 -- Si un instructor quiere darse de baja o es despedido 
 
 CREATE PROCEDURE sp_Baja_logica_Instructor
@@ -142,7 +140,7 @@ END;
 GO
 
 
--- 6. Sexto PROCEDIMIENTO: REALIZAR Alta LOGICA DE LA Instructor
+-- 7. SEPTIMO PROCEDIMIENTO: REALIZAR ALTA LOGICA DEL INSTRUCTOR
 -- Si un instructor se da de Alta Nuevamente
 
 Create PROCEDURE sp_Alta_logica_Instructor
@@ -167,7 +165,7 @@ BEGIN
 END;
 GO
 
--- 7. Septimo PROCEDIMIENTO: Cantidad de instructores por especialidad.
+-- 8. OCTAVO PROCEDIMIENTO: Cantidad de instructores por especialidad.
 
 CREATE PROCEDURE sp_ContarInstructoresPorEspecialidad
 
@@ -193,7 +191,7 @@ BEGIN
 END;
 GO
 
--- 8. Octavo PROCEDIMIENTO: Cantidad de instructores por actividad
+-- 9. NOVENO PROCEDIMIENTO: Cantidad de instructores por actividad
 CREATE PROCEDURE sp_ContarInstructoresPorActividad
 
 AS
@@ -216,3 +214,21 @@ BEGIN
     END CATCH
 END;
 GO
+
+-- 10. DECIMO PROCEDIMIENTO: Cantidad de alumnos por actividad
+CREATE PROCEDURE sp_AlumnosPorActividad
+AS
+BEGIN
+    SELECT 
+        a.IDActividad,
+        a.Nombre AS Actividad,
+        COUNT(i.IDInscripcion) AS CantidadAlumnos
+    FROM Actividades a
+    INNER JOIN Clases c ON a.IDActividad = c.IDActividad
+    INNER JOIN Inscripciones i ON c.IDClase = i.IDClase
+    WHERE i.Cancelada = 0
+    GROUP BY a.IDActividad, a.Nombre
+    ORDER BY CantidadAlumnos DESC;
+END
+GO
+
