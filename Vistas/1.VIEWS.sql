@@ -1,7 +1,7 @@
 USE GimnasioTPI;
 GO
 
--- 1. VISTA: Para ver qué clases están llenas y cuáles tienen lugar
+-- 1. PRIMERA VISTA: Para ver qué clases están llenas y cuáles tienen lugar
 CREATE VIEW vw_DisponibilidadClases AS
 SELECT 
     A.Nombre AS Actividad,
@@ -16,7 +16,7 @@ FROM Clases C
 INNER JOIN Actividades A ON C.IDActividad = A.IDActividad;
 GO
 
--- 1. SEGUNDA VISTA: Resumen de Ventas por Plan
+-- 2. SEGUNDA VISTA: Resumen de Ventas por Plan
 CREATE VIEW vw_IngresosPorPlan AS
 SELECT 
     Pl.Nombre AS PlanNombre,
@@ -28,7 +28,7 @@ INNER JOIN PlanesMembresia Pl ON M.IDPlan = Pl.IDPlan
 GROUP BY Pl.Nombre;
 GO
 
--- 2. TERCERA VISTA: Relación de Instructores, sus Clases y las Actividades que dictan
+-- 3. TERCERA VISTA: Relación de Instructores, sus Clases y las Actividades que dictan
 Create VIEW vw_InstructoresPorActividad AS
 SELECT 
     A.IDActividad,
@@ -55,7 +55,7 @@ Select * from ACtividades
 Select * from Clases
 */
 
--- 3. TERCERA VISTA: Relación de Instructores y sus especialidades
+-- 4. CUARTA VISTA: Relación de Instructores y sus especialidades
 Create VIEW vw_InstructoresPorEspecialidad AS
 SELECT 
 
@@ -73,7 +73,7 @@ SELECT *
 FROM vw_InstructoresPorEspecialidad;
 */
 
--- 4. TERCERA VISTA: Relación de Clases y sus especialidades
+-- 5. QUINTA VISTA: Relación de Clases y sus especialidades
 Create VIEW vw_ClasesPorEspecialidad AS
 SELECT 
     
