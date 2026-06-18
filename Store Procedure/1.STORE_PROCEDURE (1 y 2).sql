@@ -2,23 +2,69 @@ USE GimnasioTPI;
 GO
 
 -- 1. PRIMER PROCEDIMIENTO: Para inscribir un socio y que reste el cupo automáticamente
-CREATE PROCEDURE sp_InscribirSocio
+ALTER PROCEDURE sp_InscribirSocio
     @IDSocio INT,
     @IDClase INT
 AS
 BEGIN
     BEGIN TRY
-     BEGIN TRANSACTION
-        -- Insertamos la inscripción
-        INSERT INTO Inscripciones (IDSocio, IDClase, FechaInscripcion, Cancelada)
-        VALUES (@IDSocio, @IDClase, GETDATE(), 0);
+        BEGIN TRANSACTION;
 
-        -- Restamos uno al cupo de la clase
+        -- Validar que la clase exista
+        IF NOT EXISTS (
+            SELECT 1
+            FROM Clases
+            WHERE IDClase = @IDClase
+        )
+        BEGIN
+            RAISERROR('La clase no existe.', 16, 1);
+        END;
+
+        -- Validar que el socio no esté ya inscripto en esa clase
+        IF EXISTS (
+            SELECT 1
+            FROM Inscripciones
+            WHERE IDSocio = @IDSocio
+              AND IDClase = @IDClase
+              AND Cancelada = 0
+        )
+        BEGIN
+            RAISERROR('El socio ya está inscripto en esta clase.', 16, 1);
+        END;
+
+        -- Validar que haya cupos disponibles
+        IF (
+            SELECT CuposDisponibles
+            FROM Clases
+            WHERE IDClase = @IDClase
+        ) <= 0
+        BEGIN
+            RAISERROR('No hay cupos disponibles para esta clase.', 16, 1);
+        END;
+
+        -- Insertar inscripción
+        INSERT INTO Inscripciones 
+        (
+            IDSocio, 
+            IDClase, 
+            FechaInscripcion, 
+            Cancelada
+        )
+        VALUES 
+        (
+            @IDSocio, 
+            @IDClase, 
+            GETDATE(), 
+            0
+        );
+
+        -- Restar cupo
         UPDATE Clases 
         SET CuposDisponibles = CuposDisponibles - 1 
         WHERE IDClase = @IDClase;
 
         COMMIT TRANSACTION;
+
         PRINT 'Socio inscripto correctamente.';
     END TRY
     BEGIN CATCH
