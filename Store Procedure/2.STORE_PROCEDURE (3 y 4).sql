@@ -10,6 +10,21 @@ AS
 BEGIN
     BEGIN TRANSACTION
     BEGIN TRY
+
+     -- Validar que la inscripción exista y esté activa (no cancelada)
+        IF NOT EXISTS (
+            SELECT 1
+            FROM Inscripciones
+            WHERE IDSocio = @IDSocio
+              AND IDClase = @IDClase
+              AND Cancelada = 0
+        )
+        BEGIN
+            RAISERROR('No existe una inscripción activa para ese socio en esa clase.', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END;
+
         -- Insertamos la inscripción
         UPDATE Inscripciones 
         SET Cancelada = 1
@@ -24,6 +39,7 @@ BEGIN
         PRINT 'Socio Desinscripto correctamente.';
     END TRY
     BEGIN CATCH
+        IF @@TRANCOUNT > 0
         ROLLBACK TRANSACTION;
         THROW;
     END CATCH

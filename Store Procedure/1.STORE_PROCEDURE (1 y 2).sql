@@ -2,7 +2,7 @@ USE GimnasioTPI;
 GO
 
 -- 1. PRIMER PROCEDIMIENTO: Para inscribir un socio y que reste el cupo automáticamente
-ALTER PROCEDURE sp_InscribirSocio
+CREATE PROCEDURE sp_InscribirSocio
     @IDSocio INT,
     @IDClase INT
 AS
@@ -18,6 +18,8 @@ BEGIN
         )
         BEGIN
             RAISERROR('La clase no existe.', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
         END;
 
         -- Validar que el socio no esté ya inscripto en esa clase
@@ -29,7 +31,9 @@ BEGIN
               AND Cancelada = 0
         )
         BEGIN
-            RAISERROR('El socio ya está inscripto en esta clase.', 16, 1);
+            RAISERROR('El socio ya está inscripto en esta clase.', 16, 2);
+            ROLLBACK TRANSACTION;
+            RETURN;
         END;
 
         -- Validar que haya cupos disponibles
@@ -39,7 +43,9 @@ BEGIN
             WHERE IDClase = @IDClase
         ) <= 0
         BEGIN
-            RAISERROR('No hay cupos disponibles para esta clase.', 16, 1);
+            RAISERROR('No hay cupos disponibles para esta clase.', 16, 3);
+            ROLLBACK TRANSACTION;
+            RETURN;
         END;
 
         -- Insertar inscripción
@@ -64,11 +70,11 @@ BEGIN
         WHERE IDClase = @IDClase;
 
         COMMIT TRANSACTION;
-
         PRINT 'Socio inscripto correctamente.';
     END TRY
     BEGIN CATCH
-        ROLLBACK TRANSACTION;
+      IF @@TRANCOUNT > 0
+          ROLLBACK TRANSACTION;
         THROW;
     END CATCH
 END;
