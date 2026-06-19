@@ -218,16 +218,16 @@ INSERT INTO Membresias (IDSocio, IDPlan, FechaInicio, FechaVencimiento, Activa) 
 (3, 3, '2026-05-01', '2026-06-01', 1),
 (4, 1, '2026-05-01', '2026-06-01', 1);
 
---10. Pagos
-INSERT INTO Pagos (IDMembresia, FechaPago, Monto, MetodoPago, Observacion) VALUES
-(1, GETDATE(), 12000, 1, 'Pago plan inicial - socio 1'),
-(2, GETDATE(), 18000, 2, 'Pago plan fitness - socio 2'),
-(3, GETDATE(), 25000, 3, 'Pago plan black - socio 3'),
-(4, GETDATE(), 12000, 1, 'Pago plan inicial - socio 4');
-
---11. Metodo de pago
+--10. Metodo de pago
 INSERT INTO MetodoPago (Nombre, Activo) VALUES
 ('Efectivo', 1),
 ('Tarjeta de Débito', 1),
 ('Tarjeta de Crédito', 1),
 ('Transferencia Bancaria', 1);
+
+--11. Pagos
+INSERT INTO Pagos (IDMembresia, FechaPago, Monto, MetodoPago, Observacion) VALUES
+(1, GETDATE(), 12000, 1, 'Pago plan inicial - socio 1'),
+(2, GETDATE(), 18000, 2, 'Pago plan fitness - socio 2'),
+(3, GETDATE(), 25000, 3, 'Pago plan black - socio 3'),
+(4, GETDATE(), 12000, 1, 'Pago plan inicial - socio 4');
