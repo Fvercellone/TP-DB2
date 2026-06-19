@@ -210,3 +210,24 @@ INSERT INTO Clases (IDActividad, IDInstructor, FechaHora, CuposDisponibles, IDSa
 -- 8. Inscripciones
 INSERT INTO Inscripciones (IDSocio, IDClase, Cancelada) VALUES
 (1, 1, 0), (2, 1, 0), (3, 1, 0), (4, 1, 0), (5, 1, 0), (6, 2, 0), (7, 2, 0), (8, 2, 0), (9, 3, 0), (10, 3, 0), (11, 3, 0), (12, 3, 0), (13, 3, 0), (14, 3, 0), (15, 3, 0);
+
+--9. Membresia
+INSERT INTO Membresias (IDSocio, IDPlan, FechaInicio, FechaVencimiento, Activa) VALUES
+(1, 1, '2026-05-01', '2026-06-01', 1),
+(2, 2, '2026-05-01', '2026-06-01', 1),
+(3, 3, '2026-05-01', '2026-06-01', 1),
+(4, 1, '2026-05-01', '2026-06-01', 1);
+
+--10. Pagos
+INSERT INTO Pagos (IDMembresia, FechaPago, Monto, MetodoPago, Observacion) VALUES
+(1, GETDATE(), 12000, 1, 'Pago plan inicial - socio 1'),
+(2, GETDATE(), 18000, 2, 'Pago plan fitness - socio 2'),
+(3, GETDATE(), 25000, 3, 'Pago plan black - socio 3'),
+(4, GETDATE(), 12000, 1, 'Pago plan inicial - socio 4');
+
+--11. Metodo de pago
+INSERT INTO MetodoPago (Nombre, Activo) VALUES
+('Efectivo', 1),
+('Tarjeta de Débito', 1),
+('Tarjeta de Crédito', 1),
+('Transferencia Bancaria', 1);
