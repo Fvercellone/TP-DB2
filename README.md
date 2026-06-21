@@ -25,3 +25,33 @@ La base de datos respalda la lógica del sistema, gestionando entidades como:
 * Actividades y Clases
 * Membresías y Planes
 * Pagos e Inscripciones
+
+## Componentes Técnicos 
+
+**Vistas**
+* vw_DisponibilidadClases
+* vw_IngresosPorPlan
+* vw_InstructoresPorActividad
+* InstructoresPorEspecialidad
+* vw_ClasesPorEspecialidad
+
+**Procedimientos almacenados**
+* sp_InscribirSocio
+* sp_CambiarInstructorClase
+* sp_Des_suscribirSocio
+* sp_CrearPersona
+* sp_CrearInstructor
+* sp_Baja_logica_Instructor
+* sp_Alta_logica_Instructor
+* sp_ContarInstructoresPorEspecialidad
+* sp_ContarInstructoresPorActividad
+* sp_AlumnosPorActividad
+
+**Triggers**
+* trg_ValidarAptoMedico
+* trg_NoBorrarSocioConMembresia
+* trg_BajaLogicaInscripciones
+* trg_BajaLogicaInstructores
+
+## GRUPO 67 
+
